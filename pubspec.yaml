@@ -4,6 +4,9 @@ version: 0.0.1
 author: Ken <ken.shao@gmail.com>
 homepage: https://github.com/pedia/flutter_umeng_analytics
 
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
 dependencies:
   flutter:
     sdk: flutter
