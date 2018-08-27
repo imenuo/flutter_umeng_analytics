@@ -55,17 +55,17 @@ public class FlutterUmengAnalyticsPlugin implements MethodCallHandler {
     }
 
     private void init(MethodCall call, Result result) {
-        UMConfigure.init(activity, (int) call.argument("deviceType"),
+        UMConfigure.init(activity, (Integer) call.argument("deviceType"),
                 (String) call.argument("key"));
 
         if (call.hasArgument("logEnable"))
-            UMConfigure.setLogEnabled((boolean) call.argument("logEnable"));
+            UMConfigure.setLogEnabled((Boolean) call.argument("logEnable"));
 
         if (call.hasArgument("encrypt"))
-            UMConfigure.setEncryptEnabled((boolean) call.argument("encrypt"));
+            UMConfigure.setEncryptEnabled((Boolean) call.argument("encrypt"));
 
         if (call.hasArgument("reportCrash"))
-            MobclickAgent.setCatchUncaughtExceptions((boolean) call.argument("reportCrash"));
+            MobclickAgent.setCatchUncaughtExceptions((Boolean) call.argument("reportCrash"));
 
         result.success(true);
     }
