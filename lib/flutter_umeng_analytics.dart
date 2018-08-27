@@ -10,24 +10,33 @@ class Policy {
 }
 
 class UMengAnalytics {
+  static const DEVICE_TYPE_PHONE = 1;
+  static const DEVICE_TYPE_BOX = 2;
+
   static const MethodChannel _channel =
       const MethodChannel('flutter_umeng_analytics');
 
-  static Future<bool> init(String key,
-      {int policy,
-      bool reportCrash,
-      bool encrypt,
-      double interval,
-      bool logEnable}) {
-    Map<String, dynamic> args = {"key": key};
+  static Future<bool> init(
+    String key, {
+    int deviceType = DEVICE_TYPE_PHONE,
+    int policy,
+    bool reportCrash,
+    bool encrypt,
+    double interval,
+    bool logEnable,
+  }) {
+    Map<String, dynamic> args = {
+      'key': key,
+      'deviceType': deviceType,
+    };
 
-    if (policy != null) args["policy"] = policy;
-    if (reportCrash != null) args["reportCrash"] = reportCrash;
-    if (encrypt != null) args["encrypt"] = encrypt;
-    if (interval != null) args["interval"] = interval;
-    if (logEnable != null) args["logEnable"] = logEnable;
+    if (policy != null) args['policy'] = policy;
+    if (reportCrash != null) args['reportCrash'] = reportCrash;
+    if (encrypt != null) args['encrypt'] = encrypt;
+    if (interval != null) args['interval'] = interval;
+    if (logEnable != null) args['logEnable'] = logEnable;
 
-    _channel.invokeMethod("init", args);
+    _channel.invokeMethod('init', args);
     return new Future.value(true);
   }
 
