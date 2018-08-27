@@ -6,7 +6,7 @@ import 'flutter_umeng_analytics.dart';
 typedef String PageNameGenerator(PageRoute<dynamic> pageRoute);
 
 String kDefaultPageNameGenerator(PageRoute<dynamic> pageRoute) =>
-    pageRoute.settings.name;
+    pageRoute.settings?.name;
 
 /// A [Navigator] observer that send page view events to UMeng Analytics when
 /// [PageRoute] changes.
@@ -36,7 +36,10 @@ class UMengAnalyticsRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   void didPush(Route route, Route previousRoute) {
     super.didPush(route, previousRoute);
     if (route is PageRoute) {
-      UMengAnalytics.beginPageView(pageNameGenerator(route));
+      final pageName = pageNameGenerator(route);
+      if (pageName != null && pageName.isNotEmpty) {
+        UMengAnalytics.beginPageView(pageName);
+      }
     }
   }
 
@@ -44,7 +47,10 @@ class UMengAnalyticsRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   void didPop(Route route, Route previousRoute) {
     super.didPop(route, previousRoute);
     if (previousRoute is PageRoute && route is PageRoute) {
-      UMengAnalytics.endPageView(pageNameGenerator(previousRoute));
+      final pageName = pageNameGenerator(previousRoute);
+      if (pageName != null && pageName.isNotEmpty) {
+        UMengAnalytics.endPageView(pageName);
+      }
     }
   }
 }
