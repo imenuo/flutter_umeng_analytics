@@ -55,8 +55,10 @@ public class FlutterUmengAnalyticsPlugin implements MethodCallHandler {
     }
 
     private void init(MethodCall call, Result result) {
-        UMConfigure.init(activity, (Integer) call.argument("deviceType"),
-                (String) call.argument("key"));
+        String appKey = call.argument("key");
+        String channel = call.argument("channel");
+        Integer deviceType = call.argument("deviceType");
+        UMConfigure.init(activity, appKey, channel, deviceType, null);
 
         if (call.hasArgument("logEnable"))
             UMConfigure.setLogEnabled((Boolean) call.argument("logEnable"));

@@ -19,6 +19,7 @@ class UMengAnalytics {
   static Future<bool> init(
     String key, {
     int deviceType = DEVICE_TYPE_PHONE,
+    String channel = 'default',
     int policy,
     bool reportCrash,
     bool encrypt,
@@ -28,6 +29,7 @@ class UMengAnalytics {
     Map<String, dynamic> args = {
       'key': key,
       'deviceType': deviceType,
+      'channel': channel,
     };
 
     if (policy != null) args['policy'] = policy;
