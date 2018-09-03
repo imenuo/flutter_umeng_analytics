@@ -27,30 +27,37 @@ String kDefaultPageNameGenerator(PageRoute<dynamic> pageRoute) =>
 /// [RouteSettings.name] is used as page name by default.
 class UMengAnalyticsRouteObserver extends RouteObserver<PageRoute<dynamic>> {
   final PageNameGenerator pageNameGenerator;
+  String _lastPage;
 
   UMengAnalyticsRouteObserver({
     this.pageNameGenerator = kDefaultPageNameGenerator,
   });
 
+  _pageBegin(PageRoute route) {
+    final pageName = pageNameGenerator(route);
+    if (pageName == null || pageName.isEmpty) return;
+
+    if (_lastPage != null) {
+      UMengAnalytics.endPageView(_lastPage);
+    }
+    _lastPage = pageName;
+
+    UMengAnalytics.beginPageView(pageName);
+  }
+
   @override
   void didPush(Route route, Route previousRoute) {
     super.didPush(route, previousRoute);
     if (route is PageRoute) {
-      final pageName = pageNameGenerator(route);
-      if (pageName != null && pageName.isNotEmpty) {
-        UMengAnalytics.beginPageView(pageName);
-      }
+      _pageBegin(route);
     }
   }
 
   @override
   void didPop(Route route, Route previousRoute) {
     super.didPop(route, previousRoute);
-    if (previousRoute is PageRoute && route is PageRoute) {
-      final pageName = pageNameGenerator(previousRoute);
-      if (pageName != null && pageName.isNotEmpty) {
-        UMengAnalytics.endPageView(pageName);
-      }
+    if (previousRoute is PageRoute) {
+      _pageBegin(previousRoute);
     }
   }
 }
