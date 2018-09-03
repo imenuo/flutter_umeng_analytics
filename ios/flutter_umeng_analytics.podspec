@@ -16,9 +16,12 @@ Flutter plugin for umeng:analytics
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
 
-  s.dependency 'UMCCommon'
-  s.dependency 'UMCAnalytics'
-  s.dependency 'UMCSecurityPlugins'
+  s.frameworks = 'SystemConfiguration', 'CoreTelephony'
+  s.libraries = 'z', 'sqlite3'
+  
+  s.vendored_frameworks = 'Vendors/*.framework'
+  s.preserve_paths = 'Vendors/*.framework'
+  s.pod_target_xcconfig = { 'LD_RUNPATH_SEARCH_PATHS' => '$(PODS_ROOT)/Vendors/' }
   
   s.ios.deployment_target = '8.0'
 end
