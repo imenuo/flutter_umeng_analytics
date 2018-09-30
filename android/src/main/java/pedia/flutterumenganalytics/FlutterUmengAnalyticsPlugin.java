@@ -45,7 +45,11 @@ public class FlutterUmengAnalyticsPlugin implements MethodCallHandler {
                 result.success(null);
                 break;
             case "logEvent":
-                MobclickAgent.onEvent(activity, (String) call.argument("name"));
+                if (call.hasArgument("label"))
+                    MobclickAgent.onEvent(activity, (String) call.argument("name"),
+                            (String) call.argument("label"));
+                else
+                    MobclickAgent.onEvent(activity, (String) call.argument("name"));
                 result.success(null);
                 break;
             default:

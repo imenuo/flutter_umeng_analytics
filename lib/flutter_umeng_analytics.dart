@@ -57,6 +57,6 @@ class UMengAnalytics {
 
   // event
   static Future<Null> logEvent(String name, {String label}) {
-    _channel.invokeMethod("logEvent", {"label": label});
+    _channel.invokeMethod("logEvent", {"name": name, "label": label});
   }
 }
