@@ -27,13 +27,21 @@
         [MobClick endLogPageView:call.arguments[@"name"]];
         result(nil);
     } else if ([@"logEvent" isEqualToString:call.method]) {
-        if (call.arguments[@"label"] != [NSNull null])
-            [MobClick event:call.arguments[@"name"] label:call.arguments[@"label"]];
-        else
-            [MobClick event:call.arguments[@"name"]];
+        [self logEvent:call];
         result(nil);
     } else {
         result(FlutterMethodNotImplemented);
+    }
+}
+
+- (void)logEvent:(FlutterMethodCall *)call {
+    NSString *name = call.arguments[@"name"];
+    if (call.arguments[@"map"] != [NSNull null]) {
+        [MobClick event:name attributes:call.arguments[@"map"]];
+    } else if (call.arguments[@"label"] != [NSNull null]) {
+        [MobClick event:name label:call.arguments[@"label"]];
+    } else {
+        [MobClick event:name];
     }
 }
 

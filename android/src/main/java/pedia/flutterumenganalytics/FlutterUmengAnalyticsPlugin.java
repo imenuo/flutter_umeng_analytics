@@ -5,6 +5,8 @@ import android.app.Activity;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
 
+import java.util.Map;
+
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
@@ -45,16 +47,23 @@ public class FlutterUmengAnalyticsPlugin implements MethodCallHandler {
                 result.success(null);
                 break;
             case "logEvent":
-                if (call.hasArgument("label"))
-                    MobclickAgent.onEvent(activity, (String) call.argument("name"),
-                            (String) call.argument("label"));
-                else
-                    MobclickAgent.onEvent(activity, (String) call.argument("name"));
+                logEvent(call);
                 result.success(null);
                 break;
             default:
                 result.notImplemented();
                 break;
+        }
+    }
+
+    private void logEvent(MethodCall call) {
+        String name = call.argument("name");
+        if (call.hasArgument("map") && call.argument("map") != null) {
+            MobclickAgent.onEvent(activity, name, (Map<String, String>) call.argument("map"));
+        } else if (call.hasArgument("label") && call.argument("label") != null) {
+            MobclickAgent.onEvent(activity, name, (String) call.argument("label"));
+        } else {
+            MobclickAgent.onEvent(activity, name);
         }
     }
 
