@@ -29,6 +29,14 @@
     } else if ([@"logEvent" isEqualToString:call.method]) {
         [self logEvent:call];
         result(nil);
+    } else if ([@"onProfileSignIn" isEqualToString:call.method]) {
+        if (call.arguments[@"provider"] == [NSNull null]) {
+            [MobClick profileSignInWithPUID:call.arguments[@"uid"]];
+        } else {
+            [MobClick profileSignInWithPUID:call.arguments[@"uid"] provider:call.arguments[@"provider"]];
+        }
+    } else if ([@"onProfileSignOff" isEqualToString:call.method]) {
+        [MobClick profileSignOff];
     } else {
         result(FlutterMethodNotImplemented);
     }

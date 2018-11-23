@@ -50,6 +50,17 @@ public class FlutterUmengAnalyticsPlugin implements MethodCallHandler {
                 logEvent(call);
                 result.success(null);
                 break;
+            case "onProfileSignIn":
+                if (call.argument("provider") == null) {
+                    MobclickAgent.onProfileSignIn((String) call.argument("uid"));
+                } else {
+                    MobclickAgent.onProfileSignIn((String) call.argument("uid"),
+                            (String) call.argument("provider"));
+                }
+                break;
+            case "onProfileSignOff":
+                MobclickAgent.onProfileSignOff();
+                break;
             default:
                 result.notImplemented();
                 break;

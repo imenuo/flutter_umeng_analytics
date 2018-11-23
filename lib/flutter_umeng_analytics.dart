@@ -25,7 +25,7 @@ class UMengAnalytics {
     bool encrypt,
     double interval,
     bool logEnable,
-  }) {
+  }) async {
     Map<String, dynamic> args = {
       'key': key,
       'deviceType': deviceType,
@@ -38,21 +38,33 @@ class UMengAnalytics {
     if (interval != null) args['interval'] = interval;
     if (logEnable != null) args['logEnable'] = logEnable;
 
-    _channel.invokeMethod('init', args);
-    return new Future.value(true);
+    await _channel.invokeMethod('init', args);
+    return true;
   }
 
   // page view
-  static Future<Null> logPageView(String name, int seconds) {
-    _channel.invokeMethod("logPageView", {"name": name, "seconds": seconds});
+  static Future<void> logPageView(String name, int seconds) async {
+    await _channel
+        .invokeMethod("logPageView", {"name": name, "seconds": seconds});
   }
 
-  static Future<Null> beginPageView(String name) {
-    _channel.invokeMethod("beginPageView", {"name": name});
+  static Future<void> beginPageView(String name) async {
+    await _channel.invokeMethod("beginPageView", {"name": name});
   }
 
-  static Future<Null> endPageView(String name) {
-    _channel.invokeMethod("endPageView", {"name": name});
+  static Future<void> endPageView(String name) async {
+    await _channel.invokeMethod("endPageView", {"name": name});
+  }
+
+  static Future<void> onProfileSignIn(String uid, [String provider]) async {
+    await _channel.invokeMethod('onProfileSignIn', {
+      'uid': uid,
+      'provider': provider,
+    });
+  }
+
+  static Future<void> onProfileSignOff() async {
+    await _channel.invokeMethod('onProfileSignOff');
   }
 
   // event
