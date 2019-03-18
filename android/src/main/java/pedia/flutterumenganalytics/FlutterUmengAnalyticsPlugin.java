@@ -93,8 +93,6 @@ public class FlutterUmengAnalyticsPlugin implements MethodCallHandler {
         if (call.hasArgument("reportCrash"))
             MobclickAgent.setCatchUncaughtExceptions((Boolean) call.argument("reportCrash"));
 
-        MobclickAgent.openActivityDurationTrack(false);
-
         result.success(true);
     }
 }
